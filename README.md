@@ -151,8 +151,13 @@ def display_and_save_frame(fps_async, fps_stream, frames):
 ### Usage
 Follow the previous steps, and then:
 
-The program will automatically read the RTSP URL from a file named source.txt.
-The URL is checked to ensure it's reachable. If not, the program will report an error.
-The program will then start capturing frames from the RTSP stream and display them in a window along with the calculated FPS for asynchronous processing and the stream itself. The frames will also be put into a Queue for further processing.
-Press 'q' to stop the stream and close the window.
-Please note that the FPS calculation and display are done in separate processes to ensure they don't interfere with the main video capture and processing tasks.
+- The program will automatically read the RTSP URL from a file named source.txt.
+- The URL is checked to ensure it's reachable. If not, the program will report an error.
+- The program will then start capturing frames from the RTSP stream and display them in a window along with the calculated FPS for asynchronous processing and the stream itself. The frames will also be put into a Queue for further processing.
+- Press 'q' to stop the stream and close the window.
+- Please note that the FPS calculation and display are done in separate processes to ensure they don't interfere with the main video capture and processing tasks.
+
+### Verifying the Proper Functioning of Multiprocessing
+
+When the multiprocessing parallel job execution is successful, there are noticeable trends observed in the computer's resource monitor. These trends reflect the efficient distribution and utilization of system resources, indicating that the program is effectively leveraging the benefits of parallel processing. The resource monitor provides crucial insights into how the system's CPU, memory, disk, and network are being utilized during the execution of the parallel tasks. By examining these trends, one can gain a better understanding of the performance characteristics of their multiprocessing application.
+![alt](./system_resource.jpeg)
