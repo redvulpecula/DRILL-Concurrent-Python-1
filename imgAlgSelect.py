@@ -25,6 +25,7 @@ class YOLOProcessor:
                 cv2.rectangle(frame, (x, y), (x2, y2), (0, 0, 225), 2)
                 cv2.putText(frame, str(cls), (x, y - 5), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 225), 2)
             cv2.imshow('YOLO Model', frame)
-            
+            if cv2.getWindowProperty('YOLO Model', cv2.WND_PROP_VISIBLE) < 1:
+                break
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

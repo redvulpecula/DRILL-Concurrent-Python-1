@@ -14,18 +14,34 @@ class VideoStream:
     def capture(self, frames, url):
         cap = cv2.VideoCapture(url)
         error_reported = False
+        last_success_time = time.time()
+        video_count = 0  
+        initial_connection_made = False  
+
         while True:
             ret, frame = cap.read()
             if not ret:
+                if time.time() - last_success_time > 60:
+                    print("Cannot connect to stream for more than 1 minute. Exiting.")
+                    break
                 if not error_reported:
-                    print("VideoCapture not opened or finished, reopening.")
+                    if initial_connection_made:  
+                        video_count += 1  
+                        print(f"Finished streaming video number {video_count}.")
+                    print("Attempting to reconnect to the next video...")
                     error_reported = True
+                    last_success_time = time.time()  
                 cap.release()
                 cap = cv2.VideoCapture(url)
                 continue
+            
+            if not initial_connection_made:
+                initial_connection_made = True 
+
             error_reported = False
             if not frames.full():
                 frames.put(frame)
+
 
     def get_frame(self):
         if not self.frames.empty():
@@ -75,6 +91,8 @@ def display_and_save_frame(fps_async, fps_stream, frames):
         prev_time = curr_time
         display_fps(frame, fps_async, fps_stream)
         cv2.imshow('RTSP Stream', frame)
+        if cv2.getWindowProperty('RTSP Stream', cv2.WND_PROP_VISIBLE) < 1:
+            break
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         
